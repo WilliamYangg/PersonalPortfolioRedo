@@ -229,7 +229,7 @@ export default function LoadingScreen({ onEnter }) {
             color: `${ACCENT}99`,
           }}
         >
-          {buttonReady ? '> SYSTEM READY' : `> ${PHRASES[phraseIdx]}`}
+          {buttonReady ? '> SYSTEM READY' : '> SYSTEM LOADING'}
         </div>
       </div>
     </div>
