@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.DS_Store
+*.log
+
+# Local env / secrets — NEVER commit these
+.env
+.env.local
+.env.*.local
+
+# Oversized unused asset — exceeds GitHub's 100MB limit
+public/models/billboard-2.glb
