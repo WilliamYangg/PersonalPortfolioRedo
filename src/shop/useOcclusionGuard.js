@@ -17,7 +17,12 @@ export function useOcclusionGuard() {
     if (!group) return false;
     dir.copy(e.point).sub(camera.position).normalize();
     raycaster.set(camera.position, dir);
-    const hits = raycaster.intersectObject(scene, true);
+    // Mesh-only — Rain renders as LineSegments and would otherwise dominate
+    // the first-hit slot whenever a streak happens to sit between the camera
+    // and a sign, blocking every billboard everywhere.
+    const hits = raycaster
+      .intersectObject(scene, true)
+      .filter((h) => h.object && h.object.isMesh);
     if (hits.length === 0) return false;
     const first = hits[0];
     // Walk parents to see if the first hit is part of our group.

@@ -1,5 +1,5 @@
 import { useProgress } from '@react-three/drei';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 const ACCENT = '#5cf2ff';
 
@@ -13,12 +13,38 @@ const ACCENT = '#5cf2ff';
 // controls when to enter.
 export default function LoadingScreen({ onEnter }) {
   const { progress, active } = useProgress();
-  // Hold the highest reported progress so a momentary drop (e.g. mid-load
-  // recalc) doesn't bounce the bar backward.
+  // drei reports progress as (filesLoaded / totalFiles) * 100, so it jumps
+  // in chunks (e.g. 0 → 20 → 100) instead of filling smoothly. We lerp the
+  // *displayed* value toward the real progress at a capped fill rate so the
+  // bar always reads as moving instead of stalling.
+  const progressRef = useRef(0);
+  useEffect(() => {
+    progressRef.current = progress;
+  }, [progress]);
+
   const [shown, setShown] = useState(0);
   useEffect(() => {
-    setShown((p) => (progress > p ? progress : p));
-  }, [progress]);
+    let raf;
+    let last = performance.now();
+    // Two-speed fill: rocket 0 → 20 in ~50ms so the bar never reads "stalled
+    // at 0", then settle into a steady fill rate so the remainder feels like
+    // real progress instead of a teleport.
+    const FAST_FILL_PER_SEC = 400; // 0 → 20 in ~50ms
+    const FILL_PER_SEC = 30;       // 20 → 100 in worst case ~2.7s
+    const tick = (now) => {
+      const dt = (now - last) / 1000;
+      last = now;
+      setShown((cur) => {
+        const target = Math.max(progressRef.current, 20);
+        if (cur >= target) return cur;
+        const rate = cur < 20 ? FAST_FILL_PER_SEC : FILL_PER_SEC;
+        return Math.min(cur + dt * rate, target, 100);
+      });
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, []);
 
   // "Ready" = nothing actively loading AND we've reported 100. Small extra
   // delay before showing the button so the bar visibly hits 100.

@@ -25,7 +25,7 @@ export default function CameraIntro({ active, rest, onComplete }) {
       camera.position.set(rest[0] * 2.6, rest[1] + 3.5, rest[2] * 2.8);
       startedRef.current = true;
     }
-    camera.position.lerp(restVec, Math.min(1, dt * 2.2));
+    camera.position.lerp(restVec, Math.min(1, dt * 3.7));
     camera.lookAt(0, 1, 0);
     if (camera.position.distanceTo(restVec) < 0.04) {
       camera.position.copy(restVec);

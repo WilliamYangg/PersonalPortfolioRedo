@@ -93,7 +93,7 @@ export default function Shop() {
     <>
     <Canvas
       shadows
-      camera={{ position: [2.6, 0.5, 4.8], fov: 45 }}
+      camera={{ position: [2.6, 1.8, 4.8], fov: 45 }}
       style={{ position: 'fixed', inset: 0, background: '#04020c' }}
       dpr={1}
       gl={{ antialias: false, powerPreference: 'high-performance' }}
@@ -458,7 +458,7 @@ export default function Shop() {
 
       <CameraIntro
         active={introPlaying}
-        rest={[2.6, 0.5, 4.8]}
+        rest={[2.6, 1.8, 4.8]}
         onComplete={() => setIntroPlaying(false)}
       />
 
@@ -469,8 +469,8 @@ export default function Shop() {
         enableZoom={true}
         enableDamping={true}
         dampingFactor={0.2}
-        minDistance={3.5}
-        maxDistance={7.5}
+        minDistance={4.5}
+        maxDistance={6.5}
         minPolarAngle={Math.PI / 6}
         maxPolarAngle={Math.PI / 2.05}
         autoRotate={false}
