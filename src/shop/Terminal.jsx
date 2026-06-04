@@ -261,6 +261,10 @@ export default function Terminal({ open, initialSlug = null, onClose }) {
           background: ${SHELL_ACCENT}11;
           color: ${SHELL_ACCENT};
         }
+        @keyframes imgPulse {
+          0%, 100% { opacity: 0.55; }
+          50%      { opacity: 1; }
+        }
       `}</style>
     </div>
   );
@@ -480,6 +484,33 @@ function Carousel({ images, accent }) {
   const [idx, setIdx] = useState(0);
   const total = images.length;
   const go = (delta) => setIdx((i) => (i + delta + total) % total);
+  // Preload each image once so we know its intrinsic aspect ratio before
+  // we paint. Without this the wrapper has no height until the <img> loads,
+  // which makes the carousel feel like it pops into existence late.
+  const [ratios, setRatios] = useState(() => images.map(() => null));
+  const [loaded, setLoaded] = useState(() => images.map(() => false));
+  useEffect(() => {
+    let cancelled = false;
+    images.forEach((src, i) => {
+      const img = new Image();
+      img.onload = () => {
+        if (cancelled) return;
+        const r = img.naturalWidth / img.naturalHeight;
+        setRatios((cur) => {
+          if (cur[i] === r) return cur;
+          const next = [...cur];
+          next[i] = r;
+          return next;
+        });
+      };
+      img.src = src;
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [images]);
+  const ratio = ratios[idx] || 16 / 9;
+  const isLoaded = loaded[idx];
   const arrowBtn = {
     position: 'absolute',
     top: '50%',
@@ -507,15 +538,67 @@ function Carousel({ images, accent }) {
         background: '#040214',
       }}
     >
-      <img
-        src={images[idx]}
-        alt=""
+      <div
         style={{
-          display: 'block',
+          position: 'relative',
           width: '100%',
-          height: 'auto',
+          aspectRatio: ratio,
+          overflow: 'hidden',
         }}
-      />
+      >
+        {/* Cyberpunk placeholder — visible until the real image paints, sized
+            to the same aspect ratio so the layout never shifts. */}
+        <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            background: `
+              repeating-linear-gradient(135deg, ${accent}11 0px, ${accent}11 8px, transparent 8px, transparent 16px),
+              linear-gradient(180deg, #0a0625 0%, #040214 100%)
+            `,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            opacity: isLoaded ? 0 : 1,
+            transition: 'opacity 220ms ease-out',
+          }}
+        >
+          <div
+            style={{
+              fontFamily: '"JetBrains Mono", "Fira Code", ui-monospace, monospace',
+              fontSize: 11,
+              letterSpacing: '0.3em',
+              color: accent,
+              opacity: 0.75,
+              animation: 'imgPulse 1.2s ease-in-out infinite',
+            }}
+          >
+            LOADING IMG
+          </div>
+        </div>
+        <img
+          src={images[idx]}
+          alt=""
+          onLoad={() =>
+            setLoaded((cur) => {
+              if (cur[idx]) return cur;
+              const next = [...cur];
+              next[idx] = true;
+              return next;
+            })
+          }
+          style={{
+            position: 'absolute',
+            inset: 0,
+            display: 'block',
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            opacity: isLoaded ? 1 : 0,
+            transition: 'opacity 220ms ease-out',
+          }}
+        />
+      </div>
       {total > 1 && (
         <>
           <button onClick={() => go(-1)} aria-label="previous" style={{ ...arrowBtn, left: 8 }}>‹</button>

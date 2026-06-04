@@ -3,6 +3,20 @@ import { useEffect, useRef, useState } from 'react';
 
 const ACCENT = '#5cf2ff';
 
+// Status phrases cycled while the bar fills. Each one stays for ~1.4s so
+// they're readable, and they imply specific scene work happening rather
+// than a generic "loading".
+const PHRASES = [
+  'COMPILING NEON',
+  'WIRING SIGNAGE',
+  'RENDERING RAIN',
+  'LIGHTING SCENE',
+  'SPAWNING BILLBOARDS',
+  'BOOTING TERMINAL',
+  'LOADING ASSETS',
+];
+const PHRASE_DURATION = 1.4; // seconds per phrase
+
 // Fullscreen cyberpunk loading overlay. Mounts on top of the Canvas while
 // drei's useProgress reports loaded < 100%. Once everything's loaded, shows
 // a [ LET'S GO ] button that calls onEnter, which the parent uses to hide
@@ -23,23 +37,37 @@ export default function LoadingScreen({ onEnter }) {
   }, [progress]);
 
   const [shown, setShown] = useState(0);
+  const [phraseIdx, setPhraseIdx] = useState(0);
   useEffect(() => {
     let raf;
-    let last = performance.now();
+    const start = performance.now();
+    let last = start;
     // Two-speed fill: rocket 0 → 20 in ~50ms so the bar never reads "stalled
-    // at 0", then settle into a steady fill rate so the remainder feels like
-    // real progress instead of a teleport.
+    // at 0", then a synthetic creep 20 → 80 over 5s so the bar always shows
+    // progression even if drei is still on its first chunk. Past 80 we wait
+    // for real progress to catch up.
     const FAST_FILL_PER_SEC = 400; // 0 → 20 in ~50ms
-    const FILL_PER_SEC = 30;       // 20 → 100 in worst case ~2.7s
+    const SYNTHETIC_CAP = 80;
+    const SYNTHETIC_RAMP_SEC = 5; // 20 → 80 over 5s
     const tick = (now) => {
       const dt = (now - last) / 1000;
       last = now;
+      const elapsed = (now - start) / 1000;
+      // Synthetic floor: 20 immediately, ramping to 80 over the next 5s.
+      const synthetic = Math.min(
+        SYNTHETIC_CAP,
+        20 + Math.max(0, elapsed) * ((SYNTHETIC_CAP - 20) / SYNTHETIC_RAMP_SEC),
+      );
       setShown((cur) => {
-        const target = Math.max(progressRef.current, 20);
+        // Target = whichever is higher: real progress or synthetic floor.
+        const target = Math.max(progressRef.current, synthetic);
         if (cur >= target) return cur;
-        const rate = cur < 20 ? FAST_FILL_PER_SEC : FILL_PER_SEC;
+        // Under 20 we rocket up; past that we move at whatever rate keeps us
+        // tracking the target without overshooting.
+        const rate = cur < 20 ? FAST_FILL_PER_SEC : (SYNTHETIC_CAP - 20) / SYNTHETIC_RAMP_SEC + 5;
         return Math.min(cur + dt * rate, target, 100);
       });
+      setPhraseIdx(Math.floor(elapsed / PHRASE_DURATION) % PHRASES.length);
       raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);
@@ -158,7 +186,7 @@ export default function LoadingScreen({ onEnter }) {
             marginBottom: 28,
           }}
         >
-          LOADING ASSETS · {Math.floor(shown)}%
+          {PHRASES[phraseIdx]} · {Math.floor(shown)}%
         </div>
 
         {/* Enter button — fades in once ready */}
@@ -201,7 +229,7 @@ export default function LoadingScreen({ onEnter }) {
             color: `${ACCENT}99`,
           }}
         >
-          {buttonReady ? '> SYSTEM READY' : '> COMPILING NEON'}
+          {buttonReady ? '> SYSTEM READY' : `> ${PHRASES[phraseIdx]}`}
         </div>
       </div>
     </div>
