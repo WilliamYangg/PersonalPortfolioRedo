@@ -1,5 +1,6 @@
 import { useProgress } from '@react-three/drei';
 import { useEffect, useRef, useState } from 'react';
+import { playHoverTerminal, playClickTerminal } from './audio.js';
 
 const ACCENT = '#5cf2ff';
 
@@ -191,7 +192,7 @@ export default function LoadingScreen({ onEnter }) {
 
         {/* Enter button — fades in once ready */}
         <button
-          onClick={buttonReady ? onEnter : undefined}
+          onClick={buttonReady ? () => { playClickTerminal(); onEnter(); } : undefined}
           disabled={!buttonReady}
           style={{
             background: buttonReady ? `${ACCENT}22` : 'transparent',
@@ -209,6 +210,7 @@ export default function LoadingScreen({ onEnter }) {
           }}
           onMouseEnter={(e) => {
             if (!buttonReady) return;
+            playHoverTerminal();
             e.currentTarget.style.background = `${ACCENT}44`;
             e.currentTarget.style.boxShadow = `0 0 24px ${ACCENT}88`;
           }}
