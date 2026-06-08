@@ -6,7 +6,7 @@
 const enc = (p) => encodeURI(p);
 
 const SRC = {
-  bgRain: enc('/audio/1 Minute of Peaceful Rain Sounds  Clear Your Mind  Relax  Calming Rain.mp3'),
+  bgRain: enc('/audio/rain.m4a'),
   // Billboard hover + click reuse the terminal hover sound for consistency.
   hoverBillboard: enc('/audio/hover sound terminal.mov'),
   clickBillboard: enc('/audio/hover sound terminal.mov'),

@@ -1,5 +1,4 @@
 import { useProgress } from '@react-three/drei';
-import { useEffect, useState } from 'react';
 import { playHoverTerminal, playClickTerminal } from './audio.js';
 
 const ACCENT = '#5cf2ff';
@@ -41,15 +40,10 @@ const CYCLE_DURATION = PHRASE_COUNT * PHRASE_DURATION; // total loop length
 export default function LoadingScreen({ onEnter }) {
   const { active } = useProgress();
 
-  // The button doesn't fade in immediately once loading finishes — we give
-  // the bar a moment to visibly fill to 100 first.
-  const [buttonReady, setButtonReady] = useState(false);
-  useEffect(() => {
-    if (!active) {
-      const t = setTimeout(() => setButtonReady(true), 500);
-      return () => clearTimeout(t);
-    }
-  }, [active]);
+  // The synthetic 5s ramp is just there so slow loaders see progression.
+  // If loading actually finished, we don't want to make the user wait for
+  // it — drop the bar and reveal the button immediately.
+  const buttonReady = !active;
 
   return (
     <div
@@ -121,51 +115,54 @@ export default function LoadingScreen({ onEnter }) {
           WILLIAM YANG
         </div>
 
-        {/* Progress bar — CSS animation fills from 0 → 80% over 5s and
-            holds. Once loading finishes, the `done` class snaps the bar to
-            100% and lets the CSS transition smooth from wherever it was. */}
-        <div
-          style={{
-            position: 'relative',
-            height: 8,
-            background: '#0a0625',
-            border: `1px solid ${ACCENT}55`,
-            marginBottom: 14,
-            overflow: 'hidden',
-          }}
-        >
-          <div
-            className={`load-bar${active ? '' : ' done'}`}
-            style={{
-              position: 'absolute',
-              left: 0,
-              top: 0,
-              bottom: 0,
-              background: `linear-gradient(90deg, ${ACCENT}88, ${ACCENT})`,
-              boxShadow: `0 0 10px ${ACCENT}aa`,
-            }}
-          />
-        </div>
-        {/* Phrase cycler — masked viewport with the stack of phrases below
-            it, translated by a CSS animation in discrete 1.4s steps. Same
-            reason as the bar: CSS keeps moving even when JS is locked. */}
-        <div
-          style={{
-            height: '1.6em',
-            lineHeight: '1.6em',
-            overflow: 'hidden',
-            fontSize: 11,
-            letterSpacing: '0.25em',
-            color: '#9fb8c4',
-            marginBottom: 28,
-          }}
-        >
-          <div className="phrase-stack">
-            {PHRASES.map((p) => (
-              <div key={p} style={{ height: '1.6em' }}>{p}</div>
-            ))}
-          </div>
-        </div>
+        {/* Progress bar + phrase cycler — only rendered while loading is
+            still active. The CSS-driven synthetic ramp exists to give slow
+            loaders a sense of progression; once loading is actually done
+            we drop these entirely so the user isn't waiting on cosmetic
+            animation. */}
+        {active && (
+          <>
+            <div
+              style={{
+                position: 'relative',
+                height: 8,
+                background: '#0a0625',
+                border: `1px solid ${ACCENT}55`,
+                marginBottom: 14,
+                overflow: 'hidden',
+              }}
+            >
+              <div
+                className="load-bar"
+                style={{
+                  position: 'absolute',
+                  left: 0,
+                  top: 0,
+                  bottom: 0,
+                  background: `linear-gradient(90deg, ${ACCENT}88, ${ACCENT})`,
+                  boxShadow: `0 0 10px ${ACCENT}aa`,
+                }}
+              />
+            </div>
+            <div
+              style={{
+                height: '1.6em',
+                lineHeight: '1.6em',
+                overflow: 'hidden',
+                fontSize: 11,
+                letterSpacing: '0.25em',
+                color: '#9fb8c4',
+                marginBottom: 28,
+              }}
+            >
+              <div className="phrase-stack">
+                {PHRASES.map((p) => (
+                  <div key={p} style={{ height: '1.6em' }}>{p}</div>
+                ))}
+              </div>
+            </div>
+          </>
+        )}
 
         {/* Enter button — fades in once ready */}
         <button
@@ -216,11 +213,6 @@ export default function LoadingScreen({ onEnter }) {
         .load-bar {
           width: 0%;
           animation: loadBarFill 5s cubic-bezier(0.2, 0.6, 0.2, 1) forwards;
-          transition: width 0.5s ease-out;
-        }
-        .load-bar.done {
-          animation: none;
-          width: 100%;
         }
         @keyframes loadBarFill {
           0%   { width: 0%; }
