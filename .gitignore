@@ -11,3 +11,4 @@ dist/
 # Oversized unused asset — exceeds GitHub's 100MB limit
 public/models/billboard-2.glb
 _pictures_originals/
+_models_originals/
