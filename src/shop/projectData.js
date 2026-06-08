@@ -8,7 +8,7 @@ export const PROJECTS = {
     accent: '#5cf2ff',
     description:
       'Lyra is a top-tier digital product studio partnering with startups and fast-growing companies to design, develop, and launch exceptional digital experiences. We collaborate with innovative teams from companies like Soma Capital, 88Rising, Paraform, and various YC-backed startups to craft products that are intuitive, visually striking, and built with care.',
-    images: ['/pictures/lyratechnologies_cover.jpeg'],
+    images: ['/pictures/lyratechnologies_cover.webp'],
   },
   dappa: {
     title: 'DAPPA',
@@ -22,7 +22,7 @@ export const PROJECTS = {
       'Built clothing-image scraping so users could paste any product-page URL and get back a clean garment image ready for try-on.',
       'Implemented image storage + CDN delivery (S3 + signed URLs) for uploads, generations, and saved favorites, plus the swipe/favorites persistence layer.',
     ],
-    images: ['/pictures/dappaimage.png'],
+    images: ['/pictures/dappaimage.webp'],
   },
   kollmann: {
     title: 'KOLLMANN',
@@ -37,9 +37,9 @@ export const PROJECTS = {
       'Built a multi-card Google Maps view with route/transit calcs and lat/lng caching — killed ~2k redundant geocodes per board load.',
     ],
     images: [
-      '/pictures/kollmann1.png',
-      '/pictures/kollmann2.png',
-      '/pictures/kollmann3.png',
+      '/pictures/kollmann1.webp',
+      '/pictures/kollmann2.webp',
+      '/pictures/kollmann3.webp',
     ],
   },
   cba: {
@@ -52,7 +52,7 @@ export const PROJECTS = {
       'Engineered features for the Organisation Repository platform used by Institutional Banking risk executives to assess billions in global credit exposure, improving the speed and accuracy of lending decisions.',
       'Delivered the Light-Weight Credit Risk experience in React & TypeScript, reducing time spent reviewing full credit reports by up to 70% and accelerating repayment viability checks.',
     ],
-    images: ['/pictures/cbalogo.png'],
+    images: ['/pictures/cbalogo.webp'],
   },
   optiver: {
     title: 'OPTIVER',
@@ -64,7 +64,7 @@ export const PROJECTS = {
       'Built a financial exchange in Python using microservices — order book, execution engine, and API gateway — wired together with Protocol Buffers.',
       'Balanced tradeoffs around scalability and low-latency performance across the exchange components.',
     ],
-    images: ['/pictures/optiverpic.jpg'],
+    images: ['/pictures/optiverpic.webp'],
     imagesBelow: true,
   },
   unsw: {
@@ -79,9 +79,9 @@ export const PROJECTS = {
       'Prepare tutorial slides, run weekly labs, mark assignments, and write/mark final exams in C.',
     ],
     images: [
-      '/pictures/unsw.png',
-      '/pictures/unsw2.png',
-      '/pictures/unsw3.png',
+      '/pictures/unsw.webp',
+      '/pictures/unsw2.webp',
+      '/pictures/unsw3.webp',
     ],
     links: [
       {
@@ -103,10 +103,10 @@ export const PROJECTS = {
       'Single public profile URL per handle so a player\'s full competitive history is one link away.',
     ],
     images: [
-      '/pictures/aceverse1.png',
-      '/pictures/aceverse2.png',
-      '/pictures/aceverse3.png',
-      '/pictures/aceverse4.png',
+      '/pictures/aceverse1.webp',
+      '/pictures/aceverse2.webp',
+      '/pictures/aceverse3.webp',
+      '/pictures/aceverse4.webp',
     ],
   },
   airtableclone: {
@@ -122,8 +122,8 @@ export const PROJECTS = {
       'Stackable filters with nested AND/OR groups, drag-and-drop to reorder.',
     ],
     images: [
-      '/pictures/airtable1.png',
-      '/pictures/airtable2.png',
+      '/pictures/airtable1.webp',
+      '/pictures/airtable2.webp',
     ],
   },
   minecrafthack: {
@@ -139,9 +139,9 @@ export const PROJECTS = {
       'Plus Flight, Spider (wall-climb), and Dolphin (water-bob) — all classic survival-mode breakers.',
     ],
     images: [
-      '/pictures/minecraft.png',
-      '/pictures/minecraft2.png',
-      '/pictures/minecraft3.png',
+      '/pictures/minecraft.webp',
+      '/pictures/minecraft2.webp',
+      '/pictures/minecraft3.webp',
     ],
     links: [
       {
@@ -163,12 +163,12 @@ export const PROJECTS = {
       'Layered escape puzzle — find a hammer to break the planks blocking the door, a screwdriver to pry the keypad, the keypad code, the master key, and enough coins to buy a ticket out.',
     ],
     images: [
-      '/pictures/unreal1.png',
-      '/pictures/unreal2.png',
-      '/pictures/unreal3.png',
-      '/pictures/unreal4.png',
-      '/pictures/unreal5.png',
-      '/pictures/unreal6.png',
+      '/pictures/unreal1.webp',
+      '/pictures/unreal2.webp',
+      '/pictures/unreal3.webp',
+      '/pictures/unreal4.webp',
+      '/pictures/unreal5.webp',
+      '/pictures/unreal6.webp',
     ],
   },
 };

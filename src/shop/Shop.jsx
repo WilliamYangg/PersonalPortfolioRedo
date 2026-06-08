@@ -221,7 +221,7 @@ export default function Shop() {
         hoverScale={1.03}
         onClick={openOverview}
         screen={{
-          image: '/pictures/portrait.jpg',
+          image: '/pictures/portrait.webp',
           width: 0.78,
           height: 0.58,
           offset: [0, 0, 0.07],
@@ -242,7 +242,7 @@ export default function Shop() {
         hoverScale={1.05}
         onClick={() => window.open('https://github.com/WilliamYangg', '_blank', 'noopener,noreferrer')}
         screen={{
-          image: '/pictures/githublogo.png',
+          image: '/pictures/githublogo.webp',
           width: 0.28,
           height: 0.28,
           offset: [0, 0, -0.03],
@@ -261,7 +261,7 @@ export default function Shop() {
         hoverScale={1.05}
         onClick={() => window.open('https://www.linkedin.com/in/william-yang-a28092250/', '_blank', 'noopener,noreferrer')}
         screen={{
-          image: '/pictures/linkedlnlogo.jpeg',
+          image: '/pictures/linkedlnlogo.webp',
           width: 0.28,
           height: 0.28,
           offset: [0, 0, -0.03],
@@ -283,7 +283,7 @@ export default function Shop() {
         hoverScale={1.05}
         onClick={() => openProject('lyra')}
         screen={{
-          image: '/pictures/lyrabanner.jpeg',
+          image: '/pictures/lyrabanner.webp',
           width: 1.692,
           height: 0.42,
           offset: [0, 0, 0.07],
@@ -305,7 +305,7 @@ export default function Shop() {
         hoverScale={1.05}
         onClick={() => openProject('optiver')}
         screen={{
-          image: '/pictures/optiverpic.jpg',
+          image: '/pictures/optiverpic.webp',
           width: 0.72,
           height: 0.53,
           offset: [0, 0, -0.01],
@@ -327,7 +327,7 @@ export default function Shop() {
         hoverScale={1.05}
         onClick={() => openProject('aceverse')}
         screen={{
-          image: '/pictures/AceVerse%20Logo%20copy.png',
+          image: '/pictures/AceVerse%20Logo%20copy.webp',
           width: 0.48,
           height: 0.48,
           offset: [0, 0, -0.02],
@@ -350,7 +350,7 @@ export default function Shop() {
         hoverScale={1.05}
         onClick={() => openProject('minecrafthack')}
         screen={{
-          image: '/pictures/minecraftlogo.png',
+          image: '/pictures/minecraftlogo.webp',
           width: 0.48,
           height: 0.48,
           offset: [0, 0, -0.02],
@@ -371,7 +371,7 @@ export default function Shop() {
         hoverScale={1.05}
         onClick={() => openProject('unrealengine5')}
         screen={{
-          image: '/pictures/unrealengine.png',
+          image: '/pictures/unrealengine.webp',
           width: 0.48,
           height: 0.48,
           offset: [0, 0, -0.02],
@@ -392,7 +392,7 @@ export default function Shop() {
         hoverScale={1.05}
         onClick={() => openProject('airtableclone')}
         screen={{
-          image: '/pictures/airtablelogo.png',
+          image: '/pictures/airtablelogo.webp',
           width: 0.48,
           height: 0.48,
           offset: [0, 0, -0.02],

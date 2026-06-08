@@ -17,7 +17,7 @@ import { useOcclusionGuard } from './useOcclusionGuard.js';
 //     rotation={[0, -Math.PI / 2, 0]} // face -X (left wall, for example)
 //     targetWidth={1.2}              // billboard width in meters
 //     screen={{
-//       image: '/pictures/cbalogo.jpg',
+//       image: '/pictures/cbalogo.webp',
 //       width: 0.85,
 //       height: 0.85,
 //       offset: [0, 0, 0.005],       // tweak if screen z-fights with bezel

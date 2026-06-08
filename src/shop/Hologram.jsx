@@ -58,7 +58,7 @@ const frag = `
 `;
 
 export default function Hologram({
-  src = '/pictures/portrait.jpg',
+  src = '/pictures/portrait.webp',
   position = [0, 1.4, 0],
   rotation = [0, 0, 0],
   width = 1.2,
