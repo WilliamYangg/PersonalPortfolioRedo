@@ -131,7 +131,7 @@ export const PROJECTS = {
     role: 'Solo build',
     accent: '#5ce865',
     description:
-      'A Minecraft 1.8.8 hack client built as a uni security project to explore why ~20% of Minecraft players get flagged as cheaters. Minecraft is client-server based and the server trusts the client, so the client can lie about almost anything.',
+      'A Minecraft 1.8.8 hack client built to explore why ~20% of Minecraft players get flagged as cheaters. Minecraft is client-server based and the server trusts the client, so the client can lie about almost anything.',
     bullets: [
       'Kill Aura — auto-attacks any player or mob in range, making 1v1s basically unwinnable for the other player.',
       'Fast Bow — skips the bow draw-time so every arrow fires instantly at full power, turning the bow into a rapid-fire weapon.',
